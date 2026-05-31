@@ -3,7 +3,7 @@ const path = require('path');
 
 exports.handler = async function(event, context) {
   try {
-    const imagesDir = path.join(__dirname, '../../images');
+    const imagesDir = path.join(process.env.LAMBDA_TASK_ROOT, 'images');
     const files = fs.readdirSync(imagesDir);
     const images = files.filter(f =>
       /\.(jpg|jpeg|png|gif|webp)$/i.test(f) && f !== '.gitkeep'
