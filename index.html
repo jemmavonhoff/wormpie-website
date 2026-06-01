@@ -120,9 +120,7 @@
       <div class="comm-form-wrap">
         <div id="commission-form">
           <p class="form-note">The more detail you give me, the better I can help. Don't stress about getting it perfect — I'll ask if I need more.</p>
-          <form name="commission" netlify netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="commission">
-            <p style="display:none"><input name="bot-field"></p>
+          <form name="commission" action="https://formspree.io/f/maqkrqpq" method="POST">
             <div class="form-row"><label>Your Name</label><input type="text" name="name" placeholder="What should I call you?" required></div>
             <div class="form-row"><label>Email</label><input type="email" name="email" placeholder="So I can write back" required></div>
             <div class="form-row"><label>What are you after?</label><textarea name="message" placeholder="Tell me about your commission — subject, mood, size, what it's for. Anything helps." required></textarea></div>
@@ -254,10 +252,23 @@
   if (form) {
     form.addEventListener("submit", function(e){
       e.preventDefault();
-      fetch("/", { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: new URLSearchParams(new FormData(form)).toString() })
-      .finally(function(){
-        document.getElementById("commission-form").style.display = "none";
-        document.getElementById("thankyou").classList.add("visible");
+      var data = new FormData(form);
+      fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      })
+      .then(function(response){
+        if (response.ok) {
+          document.getElementById("commission-form").style.display = "none";
+          document.getElementById("thankyou").classList.add("visible");
+          form.reset();
+        } else {
+          alert("Sorry, something went wrong sending your message. Please try emailing jemma@wormpie.au directly.");
+        }
+      })
+      .catch(function(){
+        alert("Sorry, something went wrong sending your message. Please try emailing jemma@wormpie.au directly.");
       });
     });
   }
