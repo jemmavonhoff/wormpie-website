@@ -1,0 +1,32 @@
+backend:
+  name: github
+  repo: jemmavonhoff/wormpie-website
+  branch: main
+
+media_folder: images
+public_folder: /images
+
+collections:
+  - name: gallery
+    label: "Gallery — Artwork"
+    label_singular: "Artwork"
+    folder: _gallery
+    create: true
+    slug: "{{slug}}"
+    media_folder: "../images/gallery"
+    public_folder: "/images/gallery"
+    fields:
+      - { label: "Title (optional)", name: title, widget: string, required: false }
+      - { label: Photo, name: image, widget: image }
+
+  - name: life
+    label: "Life — Lifestyle & Process"
+    label_singular: "Life Photo"
+    folder: _life
+    create: true
+    slug: "{{slug}}"
+    media_folder: "../images/life"
+    public_folder: "/images/life"
+    fields:
+      - { label: "Title (optional)", name: title, widget: string, required: false }
+      - { label: Photo, name: image, widget: image }
